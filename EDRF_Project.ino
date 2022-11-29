@@ -10,8 +10,6 @@
 #define BLYNK_DEVICE_NAME           "Quickstart Device"
 #define BLYNK_AUTH_TOKEN            "4jxR0yBw4MeV2yGL2qaD0rLcq_XdG9Em"
 
-#define EDRF_DEBUG
-
 // Comment this out to disable prints and save space
 #define BLYNK_PRINT Serial
 
@@ -27,11 +25,6 @@ char auth[] = BLYNK_AUTH_TOKEN;
 
 /*Local Variables -------------------------------------------------------------*/
 BlynkTimer  timer;
-static uint16_t    tempC;
-
-#ifdef EDRF_DEBUG
-static bool tempCSentOut = false;
-#endif
 
 #if (0)
 // This function is called every time the Virtual Pin 0 state changes
@@ -61,17 +54,18 @@ void myTimerEvent()
 {
   // You can send any value at any time.
   // Please don't send more that 10 values per second.
+  Blynk.virtualWrite( V0, Lm35_GetTempCAvg() );
 
-# ifdef EDRF_DEBUG
-  tempCSentOut = true;
-# endif
-  Blynk.virtualWrite( V0, tempC );
+#if ( DEBUG_CFG_ON == DEBUG_CFG_LM35 )
+  Lm35_SetSerialPrintTempCFlag( true );
+#endif
+
 }
 
 void setup()
 {
   // Debug console
-  Serial.begin(115200);
+  Serial.begin( 115200 );
 
   Blynk.begin( auth, WifiCfg_ssid , WifiCfg_pass );
   
@@ -79,30 +73,18 @@ void setup()
   //Blynk.begin(auth, ssid, pass, "blynk.cloud", 80);
   //Blynk.begin(auth, ssid, pass, IPAddress(192,168,1,100), 8080);
 
-  // Setup a function to be called every second
-  timer.setInterval(1000L, myTimerEvent);
+  // Setup a function to be called every three seconds
+  timer.setInterval( 3000L, myTimerEvent );
 }
 
 void loop()
 {
+
+  Lm35_MainFunction();
+
   Blynk.run();
   timer.run();
   // You can inject your own code or combine it with other sketches.
   // Check other examples on how to communicate with Blynk. Remember
   // to avoid delay() function!
-
-  
-
-# ifdef EDRF_DEBUG
-  if ( true == tempCSentOut )
-  {
-    tempCSentOut = false;
-    
-    Serial.print("Temperature: ");
-    Serial.print(tempC);
-    Serial.println("°C");
-  }
-# endif
-
-  tempC = LM45_GetTempC();
 }

@@ -26,11 +26,11 @@ static uint32_t LM35_ReadmVInput(void)
  * 
  * return:        27.59°C -> 2759 
  */
-uint32_t LM45_GetTempC( void )
+uint16_t LM45_GetTempC( void )
 {
   float     milliVolts;
   float     temp;
-  uint32_t  retVal;
+  uint16_t  retVal;
 
   milliVolts  = LM35_ReadmVInput();
   temp        = ( milliVolts / LM35CFG_SCALE_FACTOR );

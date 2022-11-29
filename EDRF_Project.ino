@@ -10,6 +10,7 @@
 #define BLYNK_DEVICE_NAME           "Quickstart Device"
 #define BLYNK_AUTH_TOKEN            "4jxR0yBw4MeV2yGL2qaD0rLcq_XdG9Em"
 
+#define EDRF_DEBUG
 
 // Comment this out to disable prints and save space
 #define BLYNK_PRINT Serial
@@ -24,9 +25,15 @@
 
 char auth[] = BLYNK_AUTH_TOKEN;
 
+/*Local Variables -------------------------------------------------------------*/
+BlynkTimer  timer;
+static uint16_t    tempC;
 
-BlynkTimer timer;
+#ifdef EDRF_DEBUG
+static bool tempCSentOut = false;
+#endif
 
+#if (0)
 // This function is called every time the Virtual Pin 0 state changes
 BLYNK_WRITE(V0)
 {
@@ -36,7 +43,9 @@ BLYNK_WRITE(V0)
   // Update state
   Blynk.virtualWrite(V1, value);
 }
+#endif
 
+#if (0)
 // This function is called every time the device is connected to the Blynk.Cloud
 BLYNK_CONNECTED()
 {
@@ -45,13 +54,18 @@ BLYNK_CONNECTED()
   Blynk.setProperty(V3, "onImageUrl",  "https://static-image.nyc3.cdn.digitaloceanspaces.com/general/fte/congratulations_pressed.png");
   Blynk.setProperty(V3, "url", "https://docs.blynk.io/en/getting-started/what-do-i-need-to-blynk/how-quickstart-device-was-made");
 }
+#endif
 
 // This function sends Arduino's uptime every second to Virtual Pin 2.
 void myTimerEvent()
 {
   // You can send any value at any time.
   // Please don't send more that 10 values per second.
-  Blynk.virtualWrite(V2, millis() / 1000);
+
+# ifdef EDRF_DEBUG
+  tempCSentOut = true;
+# endif
+  Blynk.virtualWrite( V0, tempC );
 }
 
 void setup()
@@ -59,7 +73,7 @@ void setup()
   // Debug console
   Serial.begin(115200);
 
-  Blynk.begin(auth, WifiCfg_ssid , WifiCfg_pass );
+  Blynk.begin( auth, WifiCfg_ssid , WifiCfg_pass );
   
   // You can also specify server:
   //Blynk.begin(auth, ssid, pass, "blynk.cloud", 80);
@@ -77,11 +91,18 @@ void loop()
   // Check other examples on how to communicate with Blynk. Remember
   // to avoid delay() function!
 
-#if (0)
-  uint32_t tempC = LM45_GetTempC();
-  Serial.print("Temperature: ");
-  Serial.print(tempC);
-  Serial.println("°C");
-  delay(100);
-#endif
+  
+
+# ifdef EDRF_DEBUG
+  if ( true == tempCSentOut )
+  {
+    tempCSentOut = false;
+    
+    Serial.print("Temperature: ");
+    Serial.print(tempC);
+    Serial.println("°C");
+  }
+# endif
+
+  tempC = LM45_GetTempC();
 }

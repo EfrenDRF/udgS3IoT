@@ -3,7 +3,7 @@
 
 # include <stdint.h>
 
-extern uint32_t LM45_GetTempC( void );
+extern uint16_t LM45_GetTempC( void );
 
 
 #endif

@@ -20,6 +20,7 @@
 #include <BlynkSimpleEsp32.h>
 
 #include "Wifi_Cfg.h"
+#include "LM35.h"
 
 char auth[] = BLYNK_AUTH_TOKEN;
 
@@ -75,4 +76,12 @@ void loop()
   // You can inject your own code or combine it with other sketches.
   // Check other examples on how to communicate with Blynk. Remember
   // to avoid delay() function!
+
+#if (0)
+  uint32_t tempC = LM45_GetTempC();
+  Serial.print("Temperature: ");
+  Serial.print(tempC);
+  Serial.println("°C");
+  delay(100);
+#endif
 }

@@ -1,3 +1,8 @@
+/*************************************************************
+ * Author:  Efren Del Real
+ * file:    Debug_Cfg.h
+ * Date:    November 29th 2022
+ *************************************************************/
 #ifndef DEBUG_CFG_H_
 # define DEBUG_CFG_H_
 

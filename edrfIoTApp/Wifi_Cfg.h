@@ -1,4 +1,10 @@
 
+/*************************************************************
+ * Author:  Efren Del Real
+ * file:    Wifi_Cfg.h
+ * Date:    November 29th 2022
+ *************************************************************/
+
 #ifndef WIFI_CFG_H_
 # define WIFI_CFG_H_
 

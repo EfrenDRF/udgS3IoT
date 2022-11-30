@@ -1,3 +1,9 @@
+/*************************************************************
+ * Author:  Efren Del Real
+ * file:    LM35.cpp
+ * Date:    November 29th 2022
+ *************************************************************/
+
 #include "LM35.h"
 
 /* Global variable definition ****************************************************/
@@ -96,8 +102,6 @@ static temp_t Lm35_GetCurrentTempC( void )
  */
 void Lm35_MainFunction( void )
 {
-
-
 #if ( DEBUG_CFG_ON == DEBUG_CFG_LM35 )
   if ( false != Lm35_serialPrintTempCFlag )
   {
@@ -105,7 +109,6 @@ void Lm35_MainFunction( void )
   }
 #endif
 
-
-Lm35_processTempCAvg();
-
+  /* */
+  Lm35_processTempCAvg();
 }

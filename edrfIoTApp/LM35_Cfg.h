@@ -1,10 +1,12 @@
+/*************************************************************
+ * Author:  Efren Del Real
+ * file:    LM35_Cfg.h
+ * Date:    November 29th 2022
+ *************************************************************/
 #ifndef LM35_CFG_H_
 # define LM35_CFG_H_
 
 # include <Arduino.h>
-
-
-
 
 # define LM35CFG_SCALE_FACTOR           (   10u ) /* 10 mV/C */
 # define LM32CFG_NEW_SCALE_FACTOR       (  100u ) /* unadimentional unit- Default value must be 1 */
